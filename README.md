@@ -4,9 +4,9 @@
 ![Python](https://img.shields.io/badge/Linguagem-Python-green)
 ![VSCode](https://img.shields.io/badge/IDE-VSCode-informational)
 ![ISO](https://img.shields.io/badge/ISO-Linux-blueviolet)
-  
+
 ### 📖 Sumário
-- [Surgimento do Algoritmo](#surgimento-do-algoritmo)
+- [Introdução](#introducao)
 - [O Algoritmo](#o-algoritmo)
   - [Funcionamento](#funcionamento)
   - [Construção da Árvore Huffman](#construcao-da-arvore-huffman)
@@ -16,8 +16,12 @@
   - [Output.dat](#outputdat)
 - [Referências](#referências)]
   
+## Introdução
+O algoritmo de Huffman foi desenvolvido por David A. Huffman em 1952, como parte de sua pesquisa de doutorado na Universidade de MIT. Ele surgiu como uma solução eficiente para compressão de dados sem perdas, buscando reduzir o espaço necessário para armazenar informações, aproveitando a frequência de ocorrência de símbolos em uma mensagem. A ideia central era representar símbolos mais comuns com códigos binários mais curtos e símbolos menos frequentes com códigos mais longos, otimizando o uso do espaço de armazenamento.
 
-## Surgimento do Algoritmo
+O princípio básico do algoritmo de Huffman é a codificação de prefixo, que garante que nenhum código atribuído a um símbolo seja prefixo de outro. Isso evita ambiguidades na decodificação. A eficiência do método se baseia em analisar a frequência de cada símbolo no conjunto de dados e construir uma representação binária que minimize o número total de bits necessários para codificar a mensagem completa.
+
+Neste trabalho, apresento uma aplicação em linguagem Python do algoritmo, capaz de realizar a compressão de pequenos trechos de texto utilizando o código de Huffman como método.
 
 ## O Algoritmo
 ### Construção da Árvore Huffman
