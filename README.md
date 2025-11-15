@@ -15,13 +15,14 @@
 - [Referências](#referências)]
   
 ## Introdução
-O algoritmo de Huffman foi desenvolvido por David A. Huffman em 1952, enquanto ele era estudante de pós-graduação no MIT, como parte de um trabalho de curso em Teoria da Informação, ministrado por Robert Fano. Ele surgiu como uma solução eficiente para compressão de dados sem perdas, buscando reduzir o espaço necessário para armazenar informações, aproveitando a frequência de ocorrência de símbolos em uma mensagem. A ideia central era representar símbolos mais comuns com códigos binários mais curtos e símbolos menos frequentes com códigos mais longos, otimizando o uso do espaço de armazenamento.
+O algoritmo de Huffman foi desenvolvido por David A. Huffman em 1952, enquanto ele era estudante de pós-graduação no MIT, como parte de um trabalho para a disciplina de Teoria da Informação, ministrada por Robert Fano. Esse algoritmo tornou-se uma das técnicas mais eficientes para compressão de dados sem perdas, reduzindo o espaço de armazenamento necessário ao atribuir códigos de tamanhos diferentes para cada símbolo, de acordo com sua frequência de ocorrência.
 
-O princípio básico do algoritmo de Huffman é a codificação de prefixo, que garante que nenhum código atribuído a um símbolo seja prefixo de outro. Isso evita ambiguidades na decodificação. A eficiência do método se baseia em analisar a frequência de cada símbolo no conjunto de dados e construir uma representação binária que minimize o número total de bits necessários para codificar a mensagem completa.
+A ideia principal é: símbolos mais frequentes recebem códigos binários menores, enquanto símbolos menos frequentes recebem códigos maiores, garantindo eficiência global. Essa técnica utiliza códigos prefixos, garantindo que nenhum código atribuído a um símbolo seja prefixo do código de outro, evitando ambiguidades durante a decodificação.
 
-Neste trabalho, apresento uma aplicação em linguagem Python do algoritmo, capaz de realizar a compressão de pequenos trechos de texto utilizando o código de Huffman como método.
+Neste trabalho, apresento uma implementação do algoritmo de Huffman em Python, capaz de realizar a compressão de pequenos trechos de texto utilizando essa técnica.
 
 ## O Algoritmo
+O processo básico pode ser descrito por meio do seguinte pseudocódigo:
 > ```
 > HUFFMAN(S)
 >     fila de prioridade Q com um nó para cada símbolo em S
@@ -53,19 +54,69 @@ A partir da árvore construída, procede-se à atribuição dos códigos binári
 - A cada transição para um filho direito, associa-se o bit 1;
 - O código de cada símbolo corresponde à sequência de bits acumulada ao longo do percurso desde a raiz até à respetiva folha.
 
+Após a construção da árvore e a geração dos códigos binários, é possível calcular o tamanho final da mensagem comprimida. Esse cálculo é importante para avaliar a eficiência da compressão obtida pelo algoritmo de Huffman. O comprimento total da mensagem é dado por:
+
+<p align="center">
+
+$$
+Comprimento\ total = \sum_{i=1}^{n} (f_i \times l_i)
+$$
+
+</p>
+
+onde: 
+- $f_i$ é a frequência do símbolo
+- $l_i$ é o comprimento do símbolo, em bits
+	​
+### Complexidade do Algoritmo
+A análise de complexidade do algoritmo de Huffman é fundamental para compreender sua eficiência e justificar seu amplo uso em sistemas de compressão. Essa análise considera separadamente cada etapa do processo — desde a leitura dos dados até a geração final dos códigos —, permitindo uma visão completa do custo computacional envolvido
+
+O algoritmo inicia com a leitura da entrada para contabilizar o número de ocorrências de cada símbolo. Esse procedimento requer percorrer toda a sequência de símbolos, o que resulta em uma complexidade linear: $O(n)$
+
+<p align="center">
+
+$ O(n) $, sendo $n$ o total de símbolos.
+
+</p>
+
+Após a contagem, são criados k nós — um para cada símbolo distinto —, e todos são inseridos em uma fila de prioridade (min-heap). Esse processo tem custo: 
+
+<p align="center">
+
+$ O(k) $, sendo $k$ o total de símbolos distintos.
+
+</p>
+
+A fila de prioridade é uma estrutura essencial para garantir que os símbolos menos frequentes sejam combinados primeiro, preservando a propriedade ótima da codificação. A etapa central do algoritmo consiste em combinar, repetidamente, os dois nós de menor frequência para formar novos nós internos. Como este processo é realizado em uma _min-heap_, derivada do _Heapsort_, podemos assumir que o custo da etapa central é:
+
+
+<p align="center">
+
+$ O(klogk) $
+
+</p>
+
+Este é o termo mais significativo da parte estrutural do algoritmo, pois envolve operações repetidas sobre uma estrutura ordenada. Combinando todas as etapas, a complexidade total do algoritmo de Huffman é dada por:
+
+
+<p align="center">
+
+$O(n+klog⁡k)$
+
+</p>
+
+Isso significa que, para entradas grandes o custo tende a ser linear, enquanto que para entradas com mais variações de palavras a árvore pode se tornar mais custosa, mas ainda assim permanece eficiente.
+
+O algoritmo de Huffman é considerado ótimo entre os códigos prefixos, e sua complexidade é assintoticamente a melhor possível para algoritmos baseados na ordenação de frequências.
+Nenhum método que dependa de comparar frequências pode ser mais rápido do que $O(klog⁡k)$ na construção da árvore.
+
+
 ## Aplicação, Entradas e Saídas
 A implementação proposta lê textos do arquivo _input.dat_, separando-os por linhas vazias, e para cada texto calcula a frequência das palavras, constrói a árvore de Huffman e gera códigos binários de cada uma. Cada palavra é então substituída pelo seu código correspondente, produzindo um texto comprimido. Todas as informações — frequências, árvore, códigos, texto original e comprimido — são organizadas em JSON e gravadas em _output.dat_, permitindo armazenar os dados de forma compacta e estruturada. Ambos arquivos _input.dat_ e _output.dat_ devem ser armazenados em uma pasta _data_. 
 
 ### Referências
-- [Documento Prática](docs/documento_atividade01.pdf)
-- [1]: https://youtu.be/NqUSJWec3pM?si=C33oaYJOJ01Xs7y5  
-  *Vídeo do Cosmopolita explicando o Jogo da Vida*
-- [2]: https://archive.org/details/a-new-kind-of-science-stephen-wolfram-z-lib.org/mode/2up
-  *Livro completo: A New Kind of Science – Stephen Wolfram (2002)*
-- [3]: https://github.com/MasterGos/magisterka/blob/master/Materialy%20z%20sieci/AOP/Wiley%20-%20Wooldridge,%20An%20Introduction%20to%20Multi%20Agent%20Systems%20(OCR%20guaranteed%20on%20full%20book).pdf
-  *Link do GitHub do magisterka com o livro: An Introduction to Multi Agent Systems - Michael Wooldridge*
-- [4]: https://direct.mit.edu/books/monograph/2503/Growing-Artificial-SocietiesSocial-Science-from
-  *Livro no MIT Press: Growing Artificial Societies: Social Science from the Bottom Up (1996)*
+- [MIT OCW – Ch. 19: Técnicas de prova (18.310)](https://ocw.mit.edu/courses/18-310-principles-of-discrete-applied-mathematics-fall-2013/e61d70ff3cab49cb2f2352b758acbb49_MIT18_310F13_Ch19.pdf)
+- [MIT OCW – Lecture 19 (6.046J Design & Analysis of Algorithms)](https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2012/388115265a456321c4a5d19dc9e05281_MIT6_046JS12_lec19.pdf)
 
 <div> 
   <a href="https://www.youtube.com/@msjujubr" target="_blank"><img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" target="_blank"></a>
