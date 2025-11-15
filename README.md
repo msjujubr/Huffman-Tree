@@ -4,13 +4,13 @@
 ![ISO](https://img.shields.io/badge/ISO-Linux-blueviolet)
 
 ### 📖 Sumário
-- [Introdução](#introducao)
+- [Introdução](#introdução)
 - [O Algoritmo](#o-algoritmo)
-  - [Construção da Árvore Huffman](#construcao-da-arvore-huffman)
-  - [Geração dos Códigos Binários](#geracao-dos-codigos-binarios)
+  - [Construção da Árvore Huffman](#construção-da-árvore-huffman)
+  - [Geração dos Códigos Binários](#geração-dos-códigos-binários)
   - [Complexidade do Algoritmo](#complexidade-do-algoritmo)
-- [Implementação, Entradas e Saídas](#implementacao-entradas-e-saídas)
-- [Referências](#referencias)]
+- [Implementação, Entradas e Saídas](#implementação-entradas-e-saídas)
+- [Referências](#referências)
   
 ## Introdução
 O algoritmo de Huffman foi desenvolvido por David A. Huffman em 1952, enquanto ele era estudante de pós-graduação no MIT, como parte de um trabalho para a disciplina de Teoria da Informação, ministrada por Robert Fano. Esse algoritmo tornou-se uma das técnicas mais eficientes para compressão de dados sem perdas, reduzindo o espaço de armazenamento necessário ao atribuir códigos de tamanhos diferentes para cada símbolo, de acordo com sua frequência de ocorrência.
