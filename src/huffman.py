@@ -139,13 +139,9 @@ def main():
             "palavras_unicas": len(codigos)
         })
  
-
     # Salva os resultados em output.dat
     with open("data/output.dat", "w", encoding="utf-8") as f:
         json.dump(resultados, f, indent=4, ensure_ascii=False)
-
-    print("\nCompressão concluída! Resultados salvos em 'output.dat'.")
-
 
 if __name__ == "__main__":
     main()
