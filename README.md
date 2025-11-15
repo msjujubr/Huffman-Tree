@@ -1,6 +1,4 @@
 # Implementação do Código de Huffman
-
-# Simulação de Incêncio com Movimentação de um Animal
 ![Python](https://img.shields.io/badge/Linguagem-Python-green)
 ![VSCode](https://img.shields.io/badge/IDE-VSCode-informational)
 ![ISO](https://img.shields.io/badge/ISO-Linux-blueviolet)
@@ -17,45 +15,46 @@
 - [Referências](#referências)]
   
 ## Introdução
-O algoritmo de Huffman foi desenvolvido por David A. Huffman em 1952, como parte de sua pesquisa de doutorado na Universidade de MIT. Ele surgiu como uma solução eficiente para compressão de dados sem perdas, buscando reduzir o espaço necessário para armazenar informações, aproveitando a frequência de ocorrência de símbolos em uma mensagem. A ideia central era representar símbolos mais comuns com códigos binários mais curtos e símbolos menos frequentes com códigos mais longos, otimizando o uso do espaço de armazenamento.
+O algoritmo de Huffman foi desenvolvido por David A. Huffman em 1952, enquanto ele era estudante de pós-graduação no MIT, como parte de um trabalho de curso em Teoria da Informação, ministrado por Robert Fano. Ele surgiu como uma solução eficiente para compressão de dados sem perdas, buscando reduzir o espaço necessário para armazenar informações, aproveitando a frequência de ocorrência de símbolos em uma mensagem. A ideia central era representar símbolos mais comuns com códigos binários mais curtos e símbolos menos frequentes com códigos mais longos, otimizando o uso do espaço de armazenamento.
 
 O princípio básico do algoritmo de Huffman é a codificação de prefixo, que garante que nenhum código atribuído a um símbolo seja prefixo de outro. Isso evita ambiguidades na decodificação. A eficiência do método se baseia em analisar a frequência de cada símbolo no conjunto de dados e construir uma representação binária que minimize o número total de bits necessários para codificar a mensagem completa.
 
 Neste trabalho, apresento uma aplicação em linguagem Python do algoritmo, capaz de realizar a compressão de pequenos trechos de texto utilizando o código de Huffman como método.
 
 ## O Algoritmo
+> ```
+> HUFFMAN(S)
+>     fila de prioridade Q com um nó para cada símbolo em S
+>     enquanto |Q| > 1:
+>         remova os dois nós x e y com menores frequências de Q
+>         crie um novo nó z com:
+>         freq[z] = freq[x] + freq[y]
+>         left[z] = x
+>         right[z] = y
+>         insira z em Q
+> retorne o único nó restante em Q
+> ```
+
 ### Construção da Árvore Huffman
+A construção da árvore de Huffman tem como objetivo organizar os símbolos em uma estrutura hierárquica que reflecte suas frequências relativas, permitindo a atribuição eficiente de códigos. O processo segue os seguintes passos:
+- Para cada símbolo do conjunto de dados, cria-se um nó folha, atribuindo a esse nó a respetiva frequência de ocorrência;
+- Todos os nós são inseridos numa fila de prioridade, organizada por ordem crescente de frequência (min-heap).
+- Enquanto existir mais do que um nó na fila de prioridade:
+    - Extraem-se os dois nós com as menores frequências;
+    - Cria-se um novo nó interno, designando os dois nós extraídos como seus filhos;
+    - A frequência do novo nó é definida como a soma das frequências dos seus filhos;
+    - O nó resultante é reinserido na fila de prioridade.
+
+Quando restar apenas um nó na fila, este constitui a raiz da árvore de Huffman, representando a estrutura completa.
+
 ### Geração dos Códigos Binários
+A partir da árvore construída, procede-se à atribuição dos códigos binários a cada símbolo, mediante o percurso dos caminhos da raiz até a cada folha:
+- A cada transição para um filho esquerdo, associa-se o bit 0;
+- A cada transição para um filho direito, associa-se o bit 1;
+- O código de cada símbolo corresponde à sequência de bits acumulada ao longo do percurso desde a raiz até à respetiva folha.
 
-## Compilação, Entradas e Saídas
-### Input.dat
-### Output.dat
-
-    Struct Config{
-    // Variáveis Personalizáveis
-    int iteracoes = 100;
-    bool vntD = 0, vntE = 0, vntC = 0, vntB = 0;
-
-    // Variáveis Globais
-    std::vector<std::vector<int>> floresta;
-    std::vector<std::pair<int, int>> arv_1_2, arv_2_3;
-    int n, m, animX, animY, animMov, animCnt, animMrt;
-    bool animVid;
-    };
-
-| Função            | Descrição                                                  |
-|-------------------|------------------------------------------------------------|
-| [`bool atividade_fogo()`](https://github.com/msjujubr/Atividade01/blob/main/src/config.cpp#L260)  | Retorna true (1) caso ainda há árvores para serem queimadas.  |
-| [`void configuracoes()`](https://github.com/msjujubr/Atividade01/blob/main/src/config.cpp#L28) | Processa o arquivo Input.dat e armazena as informações nas variáveis globais; Inicializa o animal |
-| [`int defVento()`](https://github.com/msjujubr/Atividade01/blob/main/src/config.cpp#L8)     | Retorna um número de acordo com o caso de vento (tabela abaixo) |
-| [`void inicio_animal()`](https://github.com/msjujubr/Atividade01/blob/main/src/config.cpp#L265)    | Inicializa as variáveis do animal; Gera uma coordenada aleatória entre os 0 e 1 disponíveis na matriz para ser a posição inicial do animal na simulação |
-| [`void prop(int x, int y, vector<pair<int,int>>& auxiliar)`](https://github.com/msjujubr/Atividade01/blob/main/src/config.cpp#L286) | Confere se na posição (x, y) tem uma árvore saudável (1), se caso afirmativo, queima (2) e armazena no vetor |
-| [`void propagacao()`](https://github.com/msjujubr/Atividade01/blob/main/src/config.cpp#L67)     | Espalha o fogo de acordo com o caso de vento; Para todas as árvores que queimaram na iteração anterior (arv_1_2), pega os vizinhos possíveis e chama a função prop() para cada um; As árvores em arv_1_2 vão para o vetor arv_2_3 e as novas árvores queimadas são armazenadas em arv_1_2. |
-| [`void queimada()`](https://github.com/msjujubr/Atividade01/blob/main/src/config.cpp#L295)  | Define como queimadas (3) todas as árvores do vetor arv_2_3 |
-| [`void salvar()`](https://github.com/msjujubr/Atividade01/blob/main/src/config.cpp#L241)    |  Salva a matriz e as coordenadas do animal |
-| [`void relatorio()`](https://github.com/msjujubr/Atividade01/blob/main/src/config.cpp#L249) | Salva a quantidade de passos do animal e o estado dele ao final do programa |
-
-<div align="center"> <table> <tr> <td>
+## Aplicação, Entradas e Saídas
+A implementação proposta lê textos do arquivo _input.dat_, separando-os por linhas vazias, e para cada texto calcula a frequência das palavras, constrói a árvore de Huffman e gera códigos binários de cada uma. Cada palavra é então substituída pelo seu código correspondente, produzindo um texto comprimido. Todas as informações — frequências, árvore, códigos, texto original e comprimido — são organizadas em JSON e gravadas em _output.dat_, permitindo armazenar os dados de forma compacta e estruturada. Ambos arquivos _input.dat_ e _output.dat_ devem ser armazenados em uma pasta _data_. 
 
 ### Referências
 - [Documento Prática](docs/documento_atividade01.pdf)
