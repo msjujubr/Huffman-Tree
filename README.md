@@ -6,13 +6,11 @@
 ### 📖 Sumário
 - [Introdução](#introducao)
 - [O Algoritmo](#o-algoritmo)
-  - [Funcionamento](#funcionamento)
   - [Construção da Árvore Huffman](#construcao-da-arvore-huffman)
   - [Geração dos Códigos Binários](#geracao-dos-codigos-binarios)
-- [Compilação, Entradas e Saídas](#compilação-entradas-e-saídas)
-  - [Input.dat](#inputdat)
-  - [Output.dat](#outputdat)
-- [Referências](#referências)]
+  - [Complexidade do Algoritmo](#complexidade-do-algoritmo)
+- [Implementação, Entradas e Saídas](#implementacao-entradas-e-saídas)
+- [Referências](#referencias)]
   
 ## Introdução
 O algoritmo de Huffman foi desenvolvido por David A. Huffman em 1952, enquanto ele era estudante de pós-graduação no MIT, como parte de um trabalho para a disciplina de Teoria da Informação, ministrada por Robert Fano. Esse algoritmo tornou-se uma das técnicas mais eficientes para compressão de dados sem perdas, reduzindo o espaço de armazenamento necessário ao atribuir códigos de tamanhos diferentes para cada símbolo, de acordo com sua frequência de ocorrência.
@@ -73,45 +71,31 @@ A análise de complexidade do algoritmo de Huffman é fundamental para compreend
 
 O algoritmo inicia com a leitura da entrada para contabilizar o número de ocorrências de cada símbolo. Esse procedimento requer percorrer toda a sequência de símbolos, o que resulta em uma complexidade linear: $O(n)$
 
-<p align="center">
+<div align="center">
 
-$ O(n) $, sendo $n$ o total de símbolos.
+$$O(n)$$, sendo $n$ o total de símbolos.
 
-</p>
+</div>
 
-Após a contagem, são criados k nós — um para cada símbolo distinto —, e todos são inseridos em uma fila de prioridade (min-heap). Esse processo tem custo: 
+Após a contagem, são criados k nós, um para cada símbolo distinto, e todos são inseridos em uma fila de prioridade (min-heap). Como este processo é realizado usando uma _min-heap_, onde a extração do mínimo e a inserção de um novo elemento são operações O(log k), e repetimos isso (k-1) vezes, o custo total da etapa central é: 
 
-<p align="center">
+<div align="center">
 
-$ O(k) $, sendo $k$ o total de símbolos distintos.
+$O(k logk)$
 
-</p>
-
-A fila de prioridade é uma estrutura essencial para garantir que os símbolos menos frequentes sejam combinados primeiro, preservando a propriedade ótima da codificação. A etapa central do algoritmo consiste em combinar, repetidamente, os dois nós de menor frequência para formar novos nós internos. Como este processo é realizado em uma _min-heap_, derivada do _Heapsort_, podemos assumir que o custo da etapa central é:
-
-
-<p align="center">
-
-$ O(klogk) $
-
-</p>
+</div>
 
 Este é o termo mais significativo da parte estrutural do algoritmo, pois envolve operações repetidas sobre uma estrutura ordenada. Combinando todas as etapas, a complexidade total do algoritmo de Huffman é dada por:
 
-
-<p align="center">
+<div align="center">
 
 $O(n+klog⁡k)$
 
-</p>
+</div>
 
-Isso significa que, para entradas grandes o custo tende a ser linear, enquanto que para entradas com mais variações de palavras a árvore pode se tornar mais custosa, mas ainda assim permanece eficiente.
+Isso significa que, na prática, o algoritmo se comporta de forma linear em relação ao tamanho da entrada. Para entradas grandes comuns, como na compressão de documentos, o custo maior é proveniente da leitura dos dados (O(n)). Apenas em cenários onde há grande variação de símbolos, a complexidade se aproxima de O(k log k), mas mesmo neste caso o algoritmo mantém-se eficiente. O algoritmo de Huffman é considerado ótimo entre os códigos prefixos, e sua complexidade é assintoticamente a melhor possível para algoritmos baseados na ordenação de frequências.
 
-O algoritmo de Huffman é considerado ótimo entre os códigos prefixos, e sua complexidade é assintoticamente a melhor possível para algoritmos baseados na ordenação de frequências.
-Nenhum método que dependa de comparar frequências pode ser mais rápido do que $O(klog⁡k)$ na construção da árvore.
-
-
-## Aplicação, Entradas e Saídas
+## Implementação, Entradas e Saídas
 A implementação proposta lê textos do arquivo _input.dat_, separando-os por linhas vazias, e para cada texto calcula a frequência das palavras, constrói a árvore de Huffman e gera códigos binários de cada uma. Cada palavra é então substituída pelo seu código correspondente, produzindo um texto comprimido. Todas as informações — frequências, árvore, códigos, texto original e comprimido — são organizadas em JSON e gravadas em _output.dat_, permitindo armazenar os dados de forma compacta e estruturada. Ambos arquivos _input.dat_ e _output.dat_ devem ser armazenados em uma pasta _data_. 
 
 ### Referências
