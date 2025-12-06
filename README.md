@@ -28,15 +28,15 @@ O processo básico pode ser descrito por meio do seguinte pseudocódigo:
 >         remova os dois nós x e y com menores frequências de Q
 >         crie um novo nó z com:
 >         freq[z] = freq[x] + freq[y]
->         left[z] = x
->         right[z] = y
+>         esq[z] = x
+>         dir[z] = y
 >         insira z em Q
 > retorne o único nó restante em Q
 > ```
 
 ### Construção da Árvore Huffman
-A construção da árvore de Huffman tem como objetivo organizar os símbolos em uma estrutura hierárquica que reflecte suas frequências relativas, permitindo a atribuição eficiente de códigos. O processo segue os seguintes passos:
-- Para cada símbolo do conjunto de dados, cria-se um nó folha, atribuindo a esse nó a respetiva frequência de ocorrência;
+A construção da árvore de Huffman tem como objetivo organizar os símbolos em uma estrutura hierárquica que reflete suas frequências relativas, permitindo a atribuição eficiente de códigos. O processo segue os seguintes passos:
+- Para cada símbolo do conjunto de dados, cria-se um nó folha, atribuindo a esse nó a respectiva frequência de ocorrência;
 - Todos os nós são inseridos numa fila de prioridade, organizada por ordem crescente de frequência (min-heap).
 - Enquanto existir mais do que um nó na fila de prioridade:
     - Extraem-se os dois nós com as menores frequências;
@@ -50,7 +50,7 @@ Quando restar apenas um nó na fila, este constitui a raiz da árvore de Huffman
 A partir da árvore construída, procede-se à atribuição dos códigos binários a cada símbolo, mediante o percurso dos caminhos da raiz até a cada folha:
 - A cada transição para um filho esquerdo, associa-se o bit 0;
 - A cada transição para um filho direito, associa-se o bit 1;
-- O código de cada símbolo corresponde à sequência de bits acumulada ao longo do percurso desde a raiz até à respetiva folha.
+- O código de cada símbolo corresponde à sequência de bits acumulada ao longo do percurso desde a raiz até à respectiva folha.
 
 Após a construção da árvore e a geração dos códigos binários, é possível calcular o tamanho final da mensagem comprimida. Esse cálculo é importante para avaliar a eficiência da compressão obtida pelo algoritmo de Huffman. O comprimento total da mensagem é dado por:
 
@@ -63,8 +63,8 @@ $$
 </p>
 
 onde: 
-- $f_i$ é a frequência do símbolo
-- $l_i$ é o comprimento do símbolo, em bits
+- $f_i$: frequência do símbolo
+- $l_i$: comprimento do código do símbolo, em bits
 	​
 ### Complexidade do Algoritmo
 A análise de complexidade do algoritmo de Huffman é fundamental para compreender sua eficiência e justificar seu amplo uso em sistemas de compressão. Essa análise considera separadamente cada etapa do processo — desde a leitura dos dados até a geração final dos códigos —, permitindo uma visão completa do custo computacional envolvido
@@ -96,7 +96,7 @@ $O(n+klog⁡k)$
 Isso significa que, na prática, o algoritmo se comporta de forma linear em relação ao tamanho da entrada. Para entradas grandes comuns, como na compressão de documentos, o custo maior é proveniente da leitura dos dados (O(n)). Apenas em cenários onde há grande variação de símbolos, a complexidade se aproxima de O(k log k), mas mesmo neste caso o algoritmo mantém-se eficiente. O algoritmo de Huffman é considerado ótimo entre os códigos prefixos, e sua complexidade é assintoticamente a melhor possível para algoritmos baseados na ordenação de frequências.
 
 ## Implementação, Entradas e Saídas
-A implementação proposta lê textos do arquivo _input.dat_, separando-os por linhas vazias, e para cada texto calcula a frequência das palavras, constrói a árvore de Huffman e gera códigos binários de cada uma. Cada palavra é então substituída pelo seu código correspondente, produzindo um texto comprimido. Todas as informações — frequências, árvore, códigos, texto original e comprimido — são organizadas em JSON e gravadas em _output.dat_, permitindo armazenar os dados de forma compacta e estruturada. Ambos arquivos _input.dat_ e _output.dat_ devem ser armazenados em uma pasta _data_. 
+A implementação proposta lê textos do arquivo _input.dat_, separando-os por linhas vazias, e para cada texto calcula a frequência das palavras, em vez de trabalhar com caracteres, o algoritmo opera sobre palavras inteiras, posteriormente constrói a árvore de Huffman e gera códigos binários de cada uma. Cada palavra é então substituída pelo seu código correspondente, produzindo um texto comprimido. Todas as informações — frequências, árvore, códigos, texto original e comprimido — são organizadas em JSON e gravadas em _output.dat_, permitindo armazenar os dados de forma compacta e estruturada. Ambos arquivos _input.dat_ e _output.dat_ devem ser armazenados em uma pasta _data_. 
 
 ### Referências
 - [MIT OCW – Ch. 19: Técnicas de prova (18.310)](https://ocw.mit.edu/courses/18-310-principles-of-discrete-applied-mathematics-fall-2013/e61d70ff3cab49cb2f2352b758acbb49_MIT18_310F13_Ch19.pdf)
