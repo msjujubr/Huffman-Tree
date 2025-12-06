@@ -2,8 +2,7 @@ import heapq
 import json
 from collections import Counter
 
-# O funcionamento do código de Huffman é abordado em mais detalhes no README deste repositório:
-# https://github.com/msjujubr/Huffman-Tree
+# O funcionamento do código de Huffman é abordado em mais detalhes no README deste repositório
 
 # Definição do Nó de Huffman
 class NoHuffman:
