@@ -25,7 +25,13 @@ class NoHuffman:
 # Função para construir a árvore de Huffman
 # Recebe um dicionário {palavra: frequência}, retorna o nó raiz da árvore
 def construir_arvore(frequencias):
-    
+     # Caso especial: apenas uma palavra única
+    if len(frequencias) == 1:
+        simbolo, freq = next(iter(frequencias.items()))
+        raiz = NoHuffman(None, freq)
+        raiz.esquerda = NoHuffman(simbolo, freq)
+        return raiz
+        
     heap = [NoHuffman(simbolo, freq) for simbolo, freq in frequencias.items()]
     heapq.heapify(heap)  # transforma a fila em uma min-heap
 
@@ -45,6 +51,11 @@ def construir_arvore(frequencias):
 def gerar_codigos(no, codigo_atual="", codigos=None):
     if codigos is None:
         codigos = {}
+    
+    # Se for folha
+    if no.simbolo is not None:
+        codigos[no.simbolo] = codigo_atual or "0"  # código mínimo
+        return codigos
 
     # Se for folha, adiciona o código gerado
     if no.simbolo is not None:
@@ -73,23 +84,35 @@ def comprimir_texto(texto, codigos):
 def descomprimir_texto(texto_codificado, raiz):
     resultado = []
     no_atual = raiz
+
     for bit in texto_codificado:
+
+        # Verifica bit inválido
+        if bit not in ("0", "1"):
+            raise ValueError(f"Bit inválido encontrado: {bit}")
+
+        # Caminha pela árvore
         if bit == '0':
             no_atual = no_atual.esquerda
         else:
             no_atual = no_atual.direita
 
-        # Se chegar a uma folha, adiciona o símbolo ao resultado
+        # Se caminho inválido
+        if no_atual is None:
+            raise ValueError("Caminho inválido na árvore: stream corrompido")
+
+        # Se chegou em folha, adiciona a palavra ao resultado
         if no_atual.simbolo is not None:
             resultado.append(no_atual.simbolo)
             no_atual = raiz  # volta para a raiz
 
     return ' '.join(resultado)
 
+
 # Função para serializar a árvore
 def serializar_arvore(no):
     if no.simbolo is not None:
-        return {'simbolo': no.simbolo}
+        return {'simbolo': no.simbolo, 'freq': no.freq}
     return {
         'esquerda': serializar_arvore(no.esquerda),
         'direita': serializar_arvore(no.direita)
